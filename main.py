@@ -18,8 +18,8 @@ from highrise.__main__ import *
 import asyncio, random
 from emotes import Emotes
 from emotes import Dance_Floor
-owners = ['oharax','unhingedbaphomet2', 'alionardo_']
-moderators = ['alionardo_','oharax','cxlinxe145','xaciid','unforgettablexg','unhingedbaphomet2']
+owners = [ 'alionardo_']
+moderators = ['alionardo_']
 class BotDefinition:
     
       
@@ -92,7 +92,7 @@ class Bot(BaseBot):
             self.moderators = []
 
         # Add default moderators here
-        default_moderators = ['alionardo_','oharaX','cxlinxe145','xaciid','unforgettablexg']
+        default_moderators = ['alionardo_']
         for mod in default_moderators:
             if mod.lower() not in self.moderators:
                 self.moderators.append(mod.lower())
@@ -219,18 +219,7 @@ class Bot(BaseBot):
     async def run(self, room_id, token):
         definitions = [BotDefinition(self, room_id, token)]
         await __main__.main(definitions) 
-    async def on_reaction(self, user: User, reaction: Reaction, receiver: User) -> None:
-     try:
-      
-      if reaction =="thumbs" :
-        if user.username.lower() in self.moderators:
-           target_username = receiver.username
-           if target_username not in owners :
-              await self.teleport_user_next_to(target_username, user)
-     except Exception as e:
-            print(f"An exception occured: {e}")
-
-      
+         
 
     def remaining_time(self, username):
         if username in self.temporary_vips:
@@ -407,7 +396,7 @@ class Bot(BaseBot):
                await self.highrise.send_whisper(user.id,"\n  \n•Teleporting :\n ____________________________\nthumb up react to summon.")
             
              
-         if message.lstrip().startswith(("-give","-remove")):
+         if message.lstrip().startswith(("-give","-remove","-here","-tele")):
             response = await self.highrise.get_room_users()
             users = [content[0] for content in response.content]
             usernames = [user.username.lower() for user in users]
@@ -415,7 +404,7 @@ class Bot(BaseBot):
             args = parts[1:]
 
             if len(args) < 1:
-                await self.highrise.send_whisper(user.id, f"Usage !{parçalar[0]} <@Alionardo_>")
+                await self.highrise.send_whisper(user.id, f"Usage !{Usage[0]} <@Alionardo_>")
                 return
             elif args[0][0] != "@":
                 await self.highrise.send_whisper(user.id, "Invalid user format. Please use '@username'.")
@@ -456,6 +445,17 @@ class Bot(BaseBot):
                        self.moderators.remove(user_name)
                        self.save_moderators()
                        await self.highrise.chat(f"{user_name} is no longer a moderator.")
+                elif message.lower().startswith("-here"):   
+                  if user.username.lower() in moderators :
+                       target_username = user_name
+                       if target_username not in owners :
+                         await self.teleport_user_next_to(target_username, user)
+                elif message.lower().startswith("-tele") and  message.lower().endswith("vip") : 
+                    if user.username.lower() in moderators :
+                        await self.highrise.teleport(user_id, Position(15,0,17.5))
+                elif message.lower().startswith("-tele") and  message.lower().endswith("down") : 
+                    if user.username.lower() in moderators :
+                        await self.highrise.teleport(user_id, Position(15,0,17.5))
             except Exception as e:
              print(f"An exception occurred[Due To {parts[0][1:]}]: {e}")
 
