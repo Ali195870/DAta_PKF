@@ -21,8 +21,8 @@ class WebServer():
 
 
 class RunBot():
-  room_id = "65b6158b2ba06c8f8a5f8368"
-  bot_token = "9ed617fed9a2d685221d3cae396b149a5047e4fd11381dd746c736f0f0be0d0b"
+  room_id = os.environ['Room_id']
+  bot_token = os.environ['Token']
   bot_file = "main"
   bot_class = "Bot"
 
