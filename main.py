@@ -18,8 +18,8 @@ from highrise.__main__ import *
 import asyncio, random
 from emotes import Emotes
 from emotes import Dance_Floor
-owners = [ 'alionardo_']
-moderators = ['alionardo_']
+owners = [ 'alionardo_'.'cryptid.x']
+moderators = ['alionardo_','cryptid.x']
 class BotDefinition:
     
       
@@ -56,12 +56,12 @@ class Bot(BaseBot):
         #conversation id var
         self.convo_id_registry = []
         #dance floor position
-        min_x = 3.5
-        max_x = 7.5
-        min_y = 7.5
-        max_y = 8
-        min_z = 0.5
-        max_z = 3.5
+        min_x = 2.5
+        max_x = 6.5
+        min_y = 0
+        max_y = 1
+        min_z = 11.5
+        max_z = 19.5
 
         self.dance_floor_pos = [(min_x, max_x, min_y, max_y, min_z, max_z)]
 
@@ -170,7 +170,7 @@ class Bot(BaseBot):
          print("Ali is booting ...")
        
 
-         self.highrise.tg.create_task(self.highrise.walk_to(Position(16, 0,1.5, facing='FrontLeft')))
+         self.highrise.tg.create_task(self.highrise.walk_to(Position(16.5, 0.25,2.5, facing='FrontLeft')))
          self.load_temporary_vips()
          self.load_moderators()
          await asyncio.sleep(10)
@@ -186,7 +186,7 @@ class Bot(BaseBot):
 
      try:
 
-        await self.highrise.send_whisper(user.id,f"\n ____________________________\nHello {user.username}\n  Welcome to<#0043b2> FIND A DATE 🌹💋<#f6f6f6>\n ____________________________\n•!buy or -buy \nFor vip \n•!list or -list\nTo discover our room.\n ____________________________\n")
+        await self.highrise.send_whisper(user.id,f"\n ____________________________\nHello {user.username}\n  Welcome to<#FF0000> FIND A WIFEY/TIP <#f6f6f6>\n ____________________________\n•!buy or -buy \nFor vip \n•!list or -list\nTo discover our room.\n ____________________________\n")
         await self.highrise.send_emote('emote-salute')
      
      except Exception as e:
@@ -232,7 +232,6 @@ class Bot(BaseBot):
     async def on_chat(self, user: User, message: str) -> None:
       try:
          user_input = None
-         print(f"{user.username} said: {message}")     
          if message.lower().startswith("-announce ") and user.username.lower() in moderators:
            parts = message.split()
            self.should_stop = None
@@ -452,10 +451,13 @@ class Bot(BaseBot):
                          await self.teleport_user_next_to(target_username, user)
                 elif message.lower().startswith("-tele") and  message.lower().endswith("vip") : 
                     if user.username.lower() in moderators :
-                        await self.highrise.teleport(user_id, Position(15,0,17.5))
-                elif message.lower().startswith("-tele") and  message.lower().endswith("down") : 
+                        await self.highrise.teleport(user_id, Position(14,15.5,20))
+                elif message.lower().startswith("-tele") and  message.lower().endswith(("floor1","1","g")), : 
                     if user.username.lower() in moderators :
-                        await self.highrise.teleport(user_id, Position(15,0,17.5))
+                        await self.highrise.teleport(user_id, Position(6.5,0.25,4.5))
+                elif message.lower().startswith("-tele") and  message.lower().endswith(("floor2"."2")) : 
+                    if user.username.lower() in moderators :
+                        await self.highrise.teleport(user_id, Position(5,5.25,4))
             except Exception as e:
              print(f"An exception occurred[Due To {parts[0][1:]}]: {e}")
 
@@ -479,19 +481,19 @@ class Bot(BaseBot):
          if message.lower().startswith(('-vip','-v')) and message.lower().endswith(('-vip','-v')) :
             if user.username.lower() in self.moderators or user.username.lower() in self.membership : 
           
-                await self.highrise.teleport(f"{user.id}", Position(13.5, 16.5,8))          
+                await self.highrise.teleport(f"{user.id}", Position(14, 15.5,20))          
             else:
              await self.highrise.send_whisper((user.id)," this is a privet place for VIPs , uou can use it by purchaseing VIP Ticket type -buy")
          if message.lower().startswith(('-floor2','-2')):
               parts = message.split()
               if len(parts) == 1:
-                 await self.highrise.teleport(f"{user.id}", Position(15, 7.25,7))
+                 await self.highrise.teleport(f"{user.id}", Position(5,5.25,4))
       
         
          if message.startswith(('-floor1','-g','-1')):
              parts = message.split()
              if len(parts) == 1:
-                await self.highrise.teleport(f"{user.id}", Position(11.5,0,1.5))
+                await self.highrise.teleport(f"{user.id}", Position(6.5,0.25,4.5))
            
          if message.lower().startswith("loop"):
            parts = message.split()
@@ -596,7 +598,7 @@ class Bot(BaseBot):
              active_palette=-1)
       ])
 
-         if  message.lower().startswith("wallet"):
+         if  message.lower().startswith("-wallet"):
             if user.username.lower() in self.moderators :
 
                   wallet = (await self.highrise.get_wallet()).content
@@ -653,7 +655,7 @@ class Bot(BaseBot):
         pass
     async def on_whisper(self, user: User, message: str ) -> None:
 
-        if message == "here":
+        if message == "-here":
             if user.username.lower() in self.moderators:
                 response = await self.highrise.get_room_users()
                 users = [content for content in response.content]
@@ -668,15 +670,15 @@ class Bot(BaseBot):
 
                             pass
        
-        if message.startswith("/say"):
+        if message.startswith("-say"):
             if user.username.lower() in self.moderators:
-                text = message.replace("/say", "").strip()
+                text = message.replace("-say", "").strip()
                 await self.highrise.chat(text)
 
    
          
 
-        elif message.startswith("/come"):
+        elif message.startswith("-come"):
             if user.username.lower() in self.moderators:
                 response = await self.highrise.get_room_users()
                 your_pos = None
@@ -691,7 +693,7 @@ class Bot(BaseBot):
                 await self.highrise.chat(f"@{user.username} I'm coming ..")
                 await self.highrise.walk_to(your_pos)
 
-        elif message.lower().startswith("/follow"):
+        elif message.lower().startswith("-follow"):
          
             target_username = message.split("@")[1].strip()
 
@@ -706,10 +708,10 @@ class Bot(BaseBot):
                 await self.highrise.chat(f"hey {target_username}.")
             
                 await self.follow_user(target_username)
-        elif message.lower() == "stop following":
+        elif message.lower() == "-stop following":
             self.following_username = None
           
-            await self.highrise.walk_to(Position(16,0,1.5,"FrontLeft"))
+            await self.highrise.walk_to(Position(16.5, 0.25,2.5,"FrontLeft"))
 
   
   
