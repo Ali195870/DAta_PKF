@@ -56,12 +56,12 @@ class Bot(BaseBot):
         #conversation id var
         self.convo_id_registry = []
         #dance floor position
-        min_x = 2.5
-        max_x = 6.5
+        min_x = 11.5
+        max_x = 16.5
         min_y = 0
         max_y = 1
-        min_z = 11.5
-        max_z = 19.5
+        min_z = 1.5
+        max_z = 5.5
 
         self.dance_floor_pos = [(min_x, max_x, min_y, max_y, min_z, max_z)]
 
@@ -92,7 +92,7 @@ class Bot(BaseBot):
             self.moderators = []
 
         # Add default moderators here
-        default_moderators = ['alionardo_']
+        default_moderators = ['alionardo_','cryptid.x','plixrie','nihilistblues','raeechill']
         for mod in default_moderators:
             if mod.lower() not in self.moderators:
                 self.moderators.append(mod.lower())
@@ -170,7 +170,7 @@ class Bot(BaseBot):
          print("Ali is booting ...")
        
 
-         self.highrise.tg.create_task(self.highrise.walk_to(Position(16.5, 0.25,2.5, facing='FrontLeft')))
+         self.highrise.tg.create_task(self.highrise.walk_to(Position(13, 0,15, facing='FrontLeft')))
          self.load_temporary_vips()
          self.load_moderators()
          await asyncio.sleep(10)
@@ -186,7 +186,7 @@ class Bot(BaseBot):
 
      try:
 
-        await self.highrise.send_whisper(user.id,f"\n ____________________________\nHello {user.username}\n  Welcome to<#FF0000> FIND A WIFEY/TIP <#f6f6f6>\n ____________________________\n•!buy or -buy \nFor vip \n•!list or -list\nTo discover our room.\n ____________________________\n")
+        await self.highrise.send_whisper(user.id,f"\n ____________________________\nHello {user.username}\n  Welcome to<#FF0000> The Social Lounge <#f6f6f6>\n ____________________________\n•!buy or -buy \nFor vip \n•!list or -list\nTo discover our room.\n ____________________________\n")
         await self.highrise.send_emote('emote-salute')
      
      except Exception as e:
@@ -373,24 +373,21 @@ class Bot(BaseBot):
           await self.highrise.send_whisper(user.id,"\n• loops\n ____________________________\nMention loop before the emote numer\n ____________________________")
          if message.lower().lstrip().startswith(("!admin","-admin")):
            if user.username.lower() in moderators :
-             await self.highrise.send_whisper(user.id,"\n____________________________\n• Give mod & vip :\n-give @ mod \n-give @ mod 24h\n-give @ vip 🎫 \n• Remove mod\n-remove @ mod\n• Advertising\n-announce + text\n-clear\n ____________________________")
+             await self.highrise.send_whisper(user.id,"\n____________________________\n•  Give/Remove mod\n=give/-remove @ mod\n• Advertising\n-announce + text\n-clear\n ____________________________")
            else:
               await self.highrise.send_whisper(user.id,"Only Admins are eligie.")  
              
          
 
          if message.lower().lstrip().startswith(("-list", "!list")):
-                await self.highrise.chat("\\commands you can use:\n• !feedback or -feedback \n• !teleport or -teleport \n• -buy or !buy for \n 🎫VIP Tickets🎫\n• !mod or -mod(Only mods)\n• !admin or -admin(Only admins) ")
+                await self.highrise.chat("\\commands you can use:\n• !feedback or -feedback \n• !teleport or -teleport \n• !mod or -mod(Only mods)\n• !admin or -admin(Only admins) ")
 
         
-         if message.lower().lstrip().startswith(("-buy" , "!buy")):
-             await self.highrise.chat(f"\n  vip = 500g for permeant vip 🎫 \nTip 500 to bot you will be aceessed to use tele command ")
-        
+       
      
          if message.lower().lstrip().startswith(("-teleport", "!teleport")):
-                    await self.highrise.chat(f"\n • Teleports\n ____________________________\n-g or -floor1: Ground floor \n-floor2 or -2 :Second floor  \n-vip or -v : (vip only), make sure you have 🎫VIP Tickets 🎫 \n• type -buy or !buy for details ")
-         if message.lower().lstrip().startswith(("!rules", "-rules")):
-           await self.highrise.chat(f"\n\n        RULES\n ____________________________\n 1. NO UNDERAGE \n 2. No advertising\n 3. No hate speech \n 4. No begging (those trash will be immediately banned 🚫) \n 5. No spamming ")
+                    await self.highrise.chat(f"\n • Teleports\n ____________________________\n-g or -floor1: Ground floor \n-floor2 or -2 :Second floor  ")
+       
          if message.lower().lstrip().startswith(("-feedback", "!feedback")):
                     await self.highrise.send_whisper(user.id, "• [ Submit Feedback ]\\Thank you for joining our room! \n We value your feedback,")
                     await self.highrise.send_whisper(user.id,"Please share your feedback/suggestions with @YourWorstNightMarexx to improve our environment. Your contributions are valuable and will help us improve.")  
@@ -425,14 +422,7 @@ class Bot(BaseBot):
                 return                     
             try:
               
-                if message.lower().startswith("-give") and message.lower().endswith("vip"):   
-                  if user.username.lower() in moderators:
-                     if user_name.lower() not in self.membership:
-                        self.membership.append(user_name)
-                        self.save_membership()
-                        await self.highrise.chat(f"Congratulations! {user_name}you been given a \n🎫 Permanent vip ticket 🎫 \n ____________________________\nUse the key -vip or -v to teleport")
-
-                elif message.lower().startswith("-give") and message.lower().endswith("mod"):   
+                if message.lower().startswith("-give") and message.lower().endswith("mod"):   
                   if user.username.lower() in moderators :
                      await self.highrise.chat(f"{user_name} is now a Permanent MOD, given by {user.username}")
                      if user_name.lower() not in self.moderators:
@@ -442,7 +432,7 @@ class Bot(BaseBot):
                   if user.username.lower() in owners :
                      await self.highrise.chat(f"{user_name} is now a Temporary MOD, given by {user.username}")
                      if user_name not in self.temporary_vips:
-                         self.temporary_vips[user_name] = int(time.time()) + 24 * 60 * 60  # VIP for 24 hours
+                         self.temporary_vips[user_name] = int(time.time()) + 24 * 60 * 60  
                          self.save_temporary_vips()
                 elif message.lower().startswith("-remove") and message.lower().endswith("mod"):
                   if user.username.lower() in owners :
@@ -455,15 +445,15 @@ class Bot(BaseBot):
                        target_username = user_name
                        if target_username not in owners :
                          await self.teleport_user_next_to(target_username, user)
-                elif message.lower().startswith("-tele") and  message.lower().endswith("vip") : 
+                elif message.lower().startswith("-tele") and  message.lower().endswith(("floor3","3","f3")) : 
                     if user.username.lower() in moderators :
-                        await self.highrise.teleport(user_id, Position(14,15.5,20))
-                elif message.lower().startswith("-tele") and  message.lower().endswith(("floor1","1","g")) : 
+                        await self.highrise.teleport(user_id, Position(13.5,15.25,8))
+                elif message.lower().startswith("-tele") and  message.lower().endswith(("floor1","1","g","f1")) : 
                     if user.username.lower() in moderators :
-                        await self.highrise.teleport(user_id, Position(6.5,0.25,4.5))
-                elif message.lower().startswith("-tele") and  message.lower().endswith(("floor2","2")) : 
+                        await self.highrise.teleport(user_id, Position(12.5,0,23.5))
+                elif message.lower().startswith("-tele") and  message.lower().endswith(("floor2","2","f2")) : 
                     if user.username.lower() in moderators :
-                        await self.highrise.teleport(user_id, Position(5,5.25,4))
+                        await self.highrise.teleport(user_id, Position(13.5,6.25,13))
             except Exception as e:
              print(f"An exception occurred[Due To {parts[0][1:]}]: {e}")
 
@@ -484,22 +474,21 @@ class Bot(BaseBot):
 
 
        
-         if message.lower().startswith(('-vip','-v')) and message.lower().endswith(('-vip','-v')) :
-            if user.username.lower() in self.moderators or user.username.lower() in self.membership : 
+         if message.lower().startswith(('f3','-3','-floor3'))  :
+           
           
-                await self.highrise.teleport(f"{user.id}", Position(14, 15.5,20))          
-            else:
-             await self.highrise.send_whisper((user.id)," this is a privet place for VIPs , uou can use it by purchaseing VIP Ticket type -buy")
-         if message.lower().startswith(('-floor2','-2')):
+                await self.highrise.teleport(f"{user.id}", Position(13.5,15.25,8))          
+         
+         if message.lower().startswith(('f2','-floor2','-2')):
               parts = message.split()
               if len(parts) == 1:
-                 await self.highrise.teleport(f"{user.id}", Position(5,5.25,4))
+                 await self.highrise.teleport(f"{user.id}", Position(13.5,6.25,13))
       
         
-         if message.startswith(('-floor1','-g','-1')):
+         if message.startswith(('f2','-floor1','-g','-1')):
              parts = message.split()
              if len(parts) == 1:
-                await self.highrise.teleport(f"{user.id}", Position(6.5,0.25,4.5))
+                await self.highrise.teleport(f"{user.id}", Position(12.5,0,23.5))
            
          if message.lower().startswith("loop"):
            parts = message.split()
@@ -717,7 +706,7 @@ class Bot(BaseBot):
         elif message.lower() == "-stop following":
             self.following_username = None
           
-            await self.highrise.walk_to(Position(16.5, 0.25,2.5,"FrontLeft"))
+            await self.highrise.walk_to(Position(13, 0,15,"FrontLeft"))
 
   
   
