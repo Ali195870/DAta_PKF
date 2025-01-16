@@ -386,7 +386,7 @@ class Bot(BaseBot):
        
      
          if message.lower().lstrip().startswith(("-teleport", "!teleport")):
-                    await self.highrise.chat(f"\n • Teleports\n ____________________________\n-g or -floor1: Ground floor \n-floor2 or -2 :Second floor  ")
+                    await self.highrise.chat(f"\n • Teleports\n ____________________________\n-g or -floor1: Ground floor \n-floor2 or -2 :Second floor \n-floor3 or -3 :Third floor  ")
        
          if message.lower().lstrip().startswith(("-feedback", "!feedback")):
                     await self.highrise.send_whisper(user.id, "• [ Submit Feedback ]\\Thank you for joining our room! \n We value your feedback,")
@@ -485,7 +485,7 @@ class Bot(BaseBot):
                  await self.highrise.teleport(f"{user.id}", Position(13.5,6.25,13))
       
         
-         if message.startswith(('f2','-floor1','-g','-1')):
+         if message.startswith(('f1','-floor1','-g','-1')):
              parts = message.split()
              if len(parts) == 1:
                 await self.highrise.teleport(f"{user.id}", Position(12.5,0,23.5))
@@ -718,15 +718,7 @@ class Bot(BaseBot):
 
             
        
-            if tip.amount == 500:
-              if receiver.id == Counter.bot_id:    
-                 sender_username = sender.username.lower()
-                 if sender_username not in self.membership:
-                   self.membership.append(sender_username)
-                   self.save_membership()
-                   await self.highrise.chat(f"Thank you {sender_username} for purchasing Permeant vip ticket , you teleport to the vip now \n-vip or -v : to go vip place🎫 . \n-g:Ground floor") 
-
-                 
+          
         except Exception as e:
              print(f"An exception occured: {e}")
 
